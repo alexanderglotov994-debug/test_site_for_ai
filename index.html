@@ -15,12 +15,13 @@
       <h1>Выберите лучший ответ ИИ</h1>
       <p class="lead">
         Вам будет показано 7 случайных вопросов. Для каждого вопроса доступны два анонимных ответа.
-        Выберите тот, который считаете лучшим.
+        Выберите тот, который считаете лучшим. Если ответы равны по качеству, выберите «Одинаково».
       </p>
       <ul class="meta-list">
         <li>Ответы перемешиваются случайно.</li>
         <li>Названия агентов не раскрываются.</li>
-        <li>Можно проходить тест неограниченно.</li>
+        <li>При выборе «Одинаково» балл не присваивается никому.</li>
+        <li>Тест можно проходить неограниченно.</li>
       </ul>
       <button id="start-test-btn" class="btn btn-primary">Начать тест</button>
       <p class="hint">Админка доступна по отдельной ссылке.</p>
@@ -50,12 +51,17 @@
           <button class="btn btn-ghost" id="pick-right-btn">Выбрать вариант 2</button>
         </article>
       </section>
+
+      <div class="neutral-row">
+        <button class="btn btn-neutral" id="pick-tie-btn">Одинаково</button>
+        <p class="hint">Если ответы равноценны, выберите «Одинаково» — балл не засчитывается.</p>
+      </div>
     </section>
 
     <section class="panel hidden" id="screen-finish">
       <p class="badge">Готово</p>
       <h2>Спасибо за прохождение теста</h2>
-      <p id="finish-status" class="lead">Результаты сохранены.</p>
+      <p id="finish-status" class="lead">Результаты сохранены. Вы можете пройти тест ещё раз.</p>
       <button id="restart-btn" class="btn btn-primary">Пройти ещё раз</button>
     </section>
 
