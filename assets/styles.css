@@ -133,6 +133,11 @@ p {
   color: var(--ink);
 }
 
+.btn-neutral {
+  background: rgba(239, 108, 46, 0.16);
+  color: #7b3b1c;
+}
+
 .question-head {
   margin-bottom: 12px;
 }
@@ -186,6 +191,13 @@ p {
   white-space: pre-wrap;
   line-height: 1.55;
   color: #1f3b48;
+}
+
+.neutral-row {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .hidden {

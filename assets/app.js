@@ -16,6 +16,7 @@
     restartBtn: document.getElementById("restart-btn"),
     pickLeftBtn: document.getElementById("pick-left-btn"),
     pickRightBtn: document.getElementById("pick-right-btn"),
+    pickTieBtn: document.getElementById("pick-tie-btn"),
     promptText: document.getElementById("prompt-text"),
     answerLeftText: document.getElementById("answer-left-text"),
     answerRightText: document.getElementById("answer-right-text"),
@@ -93,6 +94,7 @@
   function lockButtons(locked) {
     elements.pickLeftBtn.disabled = locked;
     elements.pickRightBtn.disabled = locked;
+    elements.pickTieBtn.disabled = locked;
     elements.startBtn.disabled = locked;
   }
 
@@ -203,8 +205,16 @@
       return;
     }
 
-    const winner = side === "left" ? state.currentSides.left : state.currentSides.right;
-    const loser = side === "left" ? state.currentSides.right : state.currentSides.left;
+    let winner = null;
+    let loser = null;
+
+    if (side === "left") {
+      winner = state.currentSides.left;
+      loser = state.currentSides.right;
+    } else if (side === "right") {
+      winner = state.currentSides.right;
+      loser = state.currentSides.left;
+    }
 
     state.votes.push({
       itemId: item.id,
@@ -214,10 +224,10 @@
       shownLeftSystemPrompt: state.currentSides.left.systemPrompt,
       shownRightSystemPrompt: state.currentSides.right.systemPrompt,
       winnerSide: side,
-      winnerAgentId: winner.agentId,
-      loserAgentId: loser.agentId,
-      winnerSystemPrompt: winner.systemPrompt,
-      loserSystemPrompt: loser.systemPrompt,
+      winnerAgentId: winner ? winner.agentId : "",
+      loserAgentId: loser ? loser.agentId : "",
+      winnerSystemPrompt: winner ? winner.systemPrompt : "",
+      loserSystemPrompt: loser ? loser.systemPrompt : "",
       createdAt: toIsoNow()
     });
 
@@ -245,6 +255,7 @@
   elements.restartBtn.addEventListener("click", () => setVisible("intro"));
   elements.pickLeftBtn.addEventListener("click", () => pickSide("left"));
   elements.pickRightBtn.addEventListener("click", () => pickSide("right"));
+  elements.pickTieBtn.addEventListener("click", () => pickSide("tie"));
 
   if (config.SITE_TITLE) {
     document.title = config.SITE_TITLE;
