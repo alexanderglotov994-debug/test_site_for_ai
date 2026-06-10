@@ -1,75 +1,106 @@
-﻿<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Слепой тест ИИ-агентов</title>
-  <link rel="stylesheet" href="assets/styles.css">
-  <script src="config.js"></script>
-  <script defer src="assets/app.js"></script>
+  <title>Дашборд кейсов доработок</title>
+  <meta
+    name="description"
+    content="Одностраничный каталог кейсов доработок с фильтрами по отрасли, продукту и подразделению."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="page-wrap">
-    <section class="panel hero" id="screen-intro">
-      <p class="badge">Публичный blind-тест</p>
-      <h1>Выбери лучший ответ ИИ</h1>
-      <p class="lead">
-        Цель сайт - определить, какой ИИ-помощник и с каким промтом пишет приятнее и интереснее. Тебе будет показано 7 случайных вопросов. Для каждого вопроса доступны два анонимных ответа.
-        Выбери тот, который считаешь лучшим или который больше понравился. Если ответы равны по качеству, выбери «Одинаково».
-      </p>
-      <ul class="meta-list">
-        <li>Ответы перемешиваются случайно.</li>
-        <li>Названия агентов не раскрываются.</li>
-        <li>При выборе «Одинаково» балл не присваивается никому.</li>
-        <li>Тест можно проходить неограниченно.</li>
-      </ul>
-      <button id="start-test-btn" class="btn btn-primary">Начать тест</button>
-    </section>
-
-    <section class="panel hidden" id="screen-question" aria-live="polite">
-      <header class="question-head">
-        <p id="progress-text" class="progress-text">Вопрос 1 из 7</p>
-        <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
-      </header>
-
-      <article class="prompt-card">
-        <h2>Вопрос</h2>
-        <p id="prompt-text"></p>
-      </article>
-
-      <section class="answer-grid">
-        <article class="answer-card" id="answer-left-card">
-          <h3>Вариант 1</h3>
-          <div id="answer-left-text" class="answer-text"></div>
-          <button class="btn btn-ghost" id="pick-left-btn">Выбрать вариант 1</button>
-        </article>
-
-        <article class="answer-card" id="answer-right-card">
-          <h3>Вариант 2</h3>
-          <div id="answer-right-text" class="answer-text"></div>
-          <button class="btn btn-ghost" id="pick-right-btn">Выбрать вариант 2</button>
-        </article>
-      </section>
-
-      <div class="neutral-row">
-        <button class="btn btn-neutral" id="pick-tie-btn">Одинаково</button>
-        <p class="hint">Если ответы равноценны, выберите «Одинаково» — балл не засчитывается.</p>
+  <div class="lk-shell">
+    <header class="topbar">
+      <div class="logo-mark" aria-label="Mango Academy">
+        <img src="./assets/mango-academy-mark.png" alt="Mango Academy">
       </div>
-    </section>
+    </header>
 
-    <section class="panel hidden" id="screen-finish">
-      <p class="badge">Готово</p>
-      <h2>Спасибо за прохождение теста</h2>
-      <p id="finish-status" class="lead">Результаты сохранены. Вы можете пройти тест ещё раз.</p>
-      <button id="restart-btn" class="btn btn-primary">Пройти ещё раз</button>
-    </section>
+    <div class="workspace">
+      <main class="page-shell">
+        <section class="content-header">
+          <div>
+            <h1>Список доработок</h1>
+            <p>Подбор кейсов по отрасли, продукту и подразделению</p>
+          </div>
+        </section>
 
-    <section class="panel hidden" id="screen-error">
-      <p class="badge warning">Ошибка</p>
-      <h2>Не удалось загрузить данные</h2>
-      <p id="error-text" class="lead"></p>
-      <button id="retry-btn" class="btn btn-primary">Повторить</button>
-    </section>
-  </main>
+        <section class="filters-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-heading__eyebrow">Фильтры</p>
+              <h2>Подбор кейсов</h2>
+            </div>
+            <button class="ghost-button" id="reset-filters" type="button">Сбросить</button>
+          </div>
+
+          <label class="search-box" for="search-input">
+            <span class="search-box__label">Поиск по названию и описанию</span>
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Например: интеграция, витрина, отчёт"
+              autocomplete="off"
+            >
+          </label>
+        </section>
+
+        <section class="filter-groups-shell filters-panel--top" aria-label="Фильтры">
+          <div class="filter-groups" id="filter-groups"></div>
+        </section>
+
+        <section class="results-panel">
+          <div class="results-toolbar">
+            <div>
+              <p class="panel-heading__eyebrow">Результаты</p>
+              <h2>Каталог решений</h2>
+            </div>
+            <div class="active-filters" id="active-filters"></div>
+          </div>
+
+          <div class="results-state" id="results-state">Загружаю кейсы…</div>
+          <div class="cards-grid" id="cards-grid" aria-live="polite"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <template id="case-card-template">
+    <article class="case-card">
+      <div class="case-card__body">
+        <div class="case-card__visual" aria-hidden="true"></div>
+        <div class="case-card__topline">
+          <p class="case-card__eyebrow">Доработка</p>
+          <a class="case-card__link" target="_blank" rel="noopener noreferrer">Открыть кейс</a>
+        </div>
+        <h3 class="case-card__title"></h3>
+        <p class="case-card__description"></p>
+        <div class="meta-block">
+          <div class="meta-group">
+            <span class="meta-group__label">Отрасли</span>
+            <p class="meta-group__value" data-field="industries"></p>
+          </div>
+          <div class="meta-group">
+            <span class="meta-group__label">Продукты</span>
+            <p class="meta-group__value" data-field="products"></p>
+          </div>
+          <div class="meta-group">
+            <span class="meta-group__label">Подразделения</span>
+            <p class="meta-group__value" data-field="divisions"></p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js" defer></script>
 </body>
 </html>

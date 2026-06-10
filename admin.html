@@ -1,178 +1,105 @@
-﻿<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Админка blind-теста</title>
-  <link rel="stylesheet" href="assets/styles.css">
-  <script src="config.js"></script>
-  <script defer src="assets/admin.js"></script>
+  <title>Админка базы кейсов</title>
+  <meta
+    name="description"
+    content="Внутренняя админ-страница для обновления базы кейсов Mango Academy."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="page-wrap admin-wrap">
-    <section class="panel hero admin-head">
-      <p class="badge">Админка</p>
-      <h1>Управление контентом и результатами</h1>
-      <p class="lead">Редактируйте кейсы теста и смотрите отчёты по агентам, промптам и периодам.</p>
-      <div class="tab-row">
-        <button class="btn btn-tab active" data-tab="content-tab">Контент</button>
-        <button class="btn btn-tab" data-tab="results-tab">Результаты</button>
+  <div class="lk-shell">
+    <header class="topbar">
+      <div class="logo-mark" aria-label="Mango Academy">
+        <img src="./assets/mango-academy-mark.png" alt="Mango Academy">
       </div>
-    </section>
+    </header>
 
-    <section class="panel tab-pane" id="content-tab">
-      <h2>Кейсы теста</h2>
-      <section class="import-panel">
-        <h3>Импорт базы из таблицы</h3>
-        <p class="lead">
-          Формат строк: <strong>Модель, Промт, Вопрос, Ответ модели</strong>.
-          Для каждого вопроса должно быть минимум 2 строки (2 модели), чтобы автоматически создать пару для blind-теста.
-        </p>
-        <div class="button-row">
-          <a class="btn btn-ghost" href="templates/dataset-template.csv" download>Скачать шаблон CSV</a>
+    <div class="workspace">
+      <main class="page-shell">
+        <section class="content-header">
+          <div>
+            <h1>Обновление каталога кейсов</h1>
+            <p>Эта страница только для обслуживания данных</p>
+          </div>
+        </section>
+
+        <section class="admin-summary">
+          <div class="stat-card">
+            <span class="stat-card__label">Источник данных</span>
+            <strong class="stat-card__note"><code>data/cases.csv</code></strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__label">Где обновлять</span>
+            <strong class="stat-card__note">Excel или GitHub web editor</strong>
+          </div>
+        </section>
+
+        <div class="admin-layout">
+          <section class="results-panel">
+            <div class="results-toolbar">
+              <div>
+                <p class="panel-heading__eyebrow">Порядок обновления</p>
+                <h2>Прямое обновление на GitHub Pages</h2>
+              </div>
+            </div>
+
+            <section class="workflow-panel workflow-panel--admin">
+              <ol class="workflow-list">
+                <li>Открой файл <code>data/cases.csv</code> в Excel или прямо в GitHub.</li>
+                <li>Обнови или добавь строки кейсов.</li>
+                <li>Для нескольких значений в одной ячейке используй разделитель <code>|</code>.</li>
+                <li>Сохрани файл как <code>CSV UTF-8</code> с тем же именем или закоммить изменение через GitHub web editor.</li>
+                <li>GitHub Pages опубликует обновление после коммита в репозиторий.</li>
+                <li>Проверь пользовательскую витрину после публикации.</li>
+              </ol>
+            </section>
+          </section>
+
+          <section class="filters-panel admin-card">
+            <div class="panel-heading">
+              <div>
+                <p class="panel-heading__eyebrow">Структура CSV</p>
+                <h2>Обязательные колонки</h2>
+              </div>
+            </div>
+
+            <div class="admin-tags">
+              <span class="chip">Название доработки</span>
+              <span class="chip">Описание</span>
+              <span class="chip">Отрасли</span>
+              <span class="chip">Продукты</span>
+              <span class="chip">Подразделения</span>
+              <span class="chip">Ссылка</span>
+            </div>
+
+            <div class="admin-command-list">
+              <div class="admin-command">
+                <span class="meta-group__label">Основной файл данных</span>
+                <code>data/cases.csv</code>
+              </div>
+              <div class="admin-command">
+                <span class="meta-group__label">Разделитель мультизначений</span>
+                <code>|</code>
+              </div>
+              <div class="admin-command">
+                <span class="meta-group__label">Пользовательская витрина</span>
+                <code>index.html</code>
+              </div>
+            </div>
+          </section>
         </div>
-        <label>Загрузить CSV-файл
-          <input id="dataset-file" type="file" accept=".csv,text/csv">
-        </label>
-        <label>Или вставить таблицу (CSV/TSV, с заголовком)
-          <textarea id="dataset-text" rows="6" placeholder="Модель,Промт,Вопрос,Ответ модели&#10;gpt-5.4,Ты строгий аналитик,Что такое CAPM?,CAPM — модель оценки..."></textarea>
-        </label>
-        <label class="inline-label">
-          <input id="replace-active-items" type="checkbox">
-          Перед импортом деактивировать текущие активные кейсы
-        </label>
-        <div class="button-row">
-          <button class="btn btn-primary" id="import-dataset-btn" type="button">Импортировать таблицу</button>
-        </div>
-      </section>
-
-      <form id="item-form" class="form-grid">
-        <input type="hidden" id="item-id">
-
-        <label>Вопрос
-          <textarea id="prompt-text" required rows="3" placeholder="Введите текст вопроса"></textarea>
-        </label>
-
-        <label>ID агента A
-          <input id="agent-a-id" required placeholder="например, gpt-5.4">
-        </label>
-
-        <label>ID агента B
-          <input id="agent-b-id" required placeholder="например, claude-sonnet">
-        </label>
-
-        <label>Системный промпт агента A
-          <textarea id="agent-a-system" rows="2" placeholder="Идентификатор/описание системного промпта"></textarea>
-        </label>
-
-        <label>Системный промпт агента B
-          <textarea id="agent-b-system" rows="2" placeholder="Идентификатор/описание системного промпта"></textarea>
-        </label>
-
-        <label>Ответ агента A
-          <textarea id="agent-a-response" required rows="5" placeholder="Текст ответа A"></textarea>
-        </label>
-
-        <label>Ответ агента B
-          <textarea id="agent-b-response" required rows="5" placeholder="Текст ответа B"></textarea>
-        </label>
-
-        <label class="inline-label">
-          <input id="item-active" type="checkbox" checked>
-          Активный кейс
-        </label>
-
-        <div class="button-row">
-          <button class="btn btn-primary" type="submit">Сохранить кейс</button>
-          <button class="btn btn-ghost" id="new-item-btn" type="button">Новый кейс</button>
-        </div>
-      </form>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Активен</th>
-              <th>Вопрос</th>
-              <th>A vs B</th>
-              <th>Обновлён</th>
-              <th>Действия</th>
-            </tr>
-          </thead>
-          <tbody id="items-table-body"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="panel tab-pane hidden" id="results-tab">
-      <h2>Отчёты</h2>
-      <div class="filters-row">
-        <label>С даты
-          <input id="date-from" type="date">
-        </label>
-        <label>По дату
-          <input id="date-to" type="date">
-        </label>
-        <button class="btn btn-primary" id="load-results-btn" type="button">Обновить отчёт</button>
-      </div>
-
-      <div class="stats-grid">
-        <article class="stat-box">
-          <p class="stat-label">Сессий</p>
-          <p class="stat-value" id="sessions-count">0</p>
-        </article>
-        <article class="stat-box">
-          <p class="stat-label">Голосов</p>
-          <p class="stat-value" id="votes-count">0</p>
-        </article>
-      </div>
-
-      <h3>По агентам</h3>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Агент</th>
-              <th>Победы</th>
-              <th>Поражения</th>
-              <th>Winrate</th>
-            </tr>
-          </thead>
-          <tbody id="agents-stats-body"></tbody>
-        </table>
-      </div>
-
-      <h3>По системным промптам</h3>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Системный промпт</th>
-              <th>Победы</th>
-              <th>Поражения</th>
-              <th>Winrate</th>
-            </tr>
-          </thead>
-          <tbody id="system-stats-body"></tbody>
-        </table>
-      </div>
-
-      <h3>По пользовательским промптам</h3>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>ID кейса</th>
-              <th>Вопрос</th>
-              <th>Голосов</th>
-              <th>Лидирующий агент</th>
-            </tr>
-          </thead>
-          <tbody id="prompt-stats-body"></tbody>
-        </table>
-      </div>
-    </section>
-  </main>
+      </main>
+    </div>
+  </div>
 </body>
 </html>
